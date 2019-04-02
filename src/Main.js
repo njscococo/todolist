@@ -11,11 +11,17 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+
+//var data = require('./data')
+import defaultData from './data';
+import { Collapse } from '@material-ui/core';
 
 const drawerWidth = 240;
 
@@ -49,31 +55,53 @@ const styles = theme => ({
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
   },
+  nested: {
+    paddingLeft: theme.spacing.unit * 4,
+  },
 });
 
 class ResponsiveDrawer extends React.Component {
   state = {
     mobileOpen: false,
+    projectList: defaultData.data[0].projects,
+    showProject: false
   };
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
 
+  handleShowProject = () => {
+    this.setState((state) => {
+      return { showProject: !state.showProject }
+    })
+  }
+
   render() {
     const { classes, theme } = this.props;
+    console.log(classes);
+    console.log(theme);
 
     const drawer = (
       <div>
-        <div className={classes.toolbar} />
+        <div className={classes.toolbar} ></div>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <ListItem button onClick={this.handleShowProject}>
+            <ListItemIcon><InboxIcon /></ListItemIcon>
+            <ListItemText primary='Projects' />
+            {this.state.showProject ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          <Collapse in={this.state.showProject} timeout="auto" unmountOnExit>
+            <List component='div' disablePadding>
+              {this.state.projectList.map((project, index) => (
+                <ListItem button key={project.projectName} className={classes.nested}>
+                  <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                  <ListItemText primary={project.projectName} />
+                </ListItem>
+              ))}
+            </List>
+          </Collapse>
         </List>
         <Divider />
         <List>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React  from 'react';
 
 import './App.css';
 
@@ -8,7 +8,7 @@ import TodoItem from './uicomponent/TodoItem'
 function App(props) {
   return (
     <div className="App">
-      <TodoItem />
+      {/* <TodoItem /> */}
       <ResponsiveDrawer />
     </div>
   );
