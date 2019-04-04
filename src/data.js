@@ -3,12 +3,12 @@ let data = [
         user: 'angus',
         projects: [
             {
-                projectName: 'personal',
-                todoItems: [{label: '', detail: ''}]
+                projectName: 'Personal',
+                //todoItems: [{label: '', detail: ''}]
             },
             {
-                projectName: 'work',
-                todoItems: [{label: '', detail: ''}]
+                projectName: 'Work',
+                //todoItems: [{label: '', detail: ''}]
             }
         ],        
     }

@@ -24,8 +24,9 @@ import { withStyles } from '@material-ui/core/styles';
 //var data = require('./data')
 import defaultData from './data';
 import { Collapse } from '@material-ui/core';
-
+import SearchBar from './uicomponent/SearchBar'
 import CandidateItem from './uicomponent/CandidateItem'
+import TodoItemHolder from './uicomponent/TodoItemHolder';
 
 const drawerWidth = 240;
 
@@ -70,10 +71,8 @@ class ResponsiveDrawer extends React.Component {
     projectList: defaultData.data[0].projects,
     showProject: false,
     isOpenAdd: false,
-    candidateProject: {
-      projectName: 'personal',
-      todoItems: [{ label: '', detail: '' }]
-    }
+    selectedItem: {}
+
   };
 
   handleDrawerToggle = () => {
@@ -88,12 +87,12 @@ class ResponsiveDrawer extends React.Component {
 
   addProject = (item) => {
     this.setState((state) => {
-      return { projectList: [...state.projectList,item ]}
+      return { projectList: [...state.projectList, item] }
     })
   }
 
   cancelNewProject = () => this.setState((state) => {
-    return { isOpenAdd: false}
+    return { isOpenAdd: false }
   })
 
   render() {
@@ -106,28 +105,34 @@ class ResponsiveDrawer extends React.Component {
         <div className={classes.toolbar} ></div>
         <Divider />
         <List>
-          <ListItem button >
+          <ListItem button onClick={this.handleShowProject}>
             <ListItemIcon><InboxIcon /></ListItemIcon>
             <ListItemText primary='Projects' />
             <AddIcon onClick={() => this.setState((state) => {
-              return { isOpenAdd: true}
-            })}/>
-            {this.state.showProject ? <ExpandLess onClick={this.handleShowProject} /> : <ExpandMore onClick={this.handleShowProject} />}
+              return { isOpenAdd: true }
+            })} />
+            {this.state.showProject ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
           <Collapse in={this.state.showProject} timeout="auto" unmountOnExit>
             <List component='div' disablePadding>
-              {this.state.isOpenAdd ? (<CandidateItem items={this.state.projectList} 
-              isOpen={this.cancelNewProject} addProject={this.addProject}/>) : null }
-              
+              {this.state.isOpenAdd ? (<CandidateItem items={this.state.projectList}
+                isOpen={this.cancelNewProject} addProject={this.addProject} />) : null}
+
               {this.state.projectList.map((project, index) => (
-                <ListItem button key={project.projectName} className={classes.nested}>
+                <ListItem button key={project.projectName} className={classes.nested}
+                  onClick={() => {
+                    this.setState((state) => {
+                      return { selectedItem: this.state.projectList[index]}
+                    })
+                  }}
+                >
                   <ListItemIcon>{index % 2 === 0 ? <PersonIcon /> : <AssignmentIcon />}</ListItemIcon>
                   <ListItemText primary={project.projectName} />
                 </ListItem>
               ))}
             </List>
           </Collapse>
-        </List>        
+        </List>
       </div>
     );
 
@@ -180,14 +185,12 @@ class ResponsiveDrawer extends React.Component {
         </nav>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <Typography paragraph>
-         gue eget arcu dictum varius duis at consectetur lorem. Velit sed
-            ullamcorper morbi tincidunt. Lorem donec massa sapien faucibus et molestie ac.
-          </Typography>
-          <Typography paragraph>
+          <SearchBar />
+          <TodoItemHolder project={this.state.selectedItem} />
+          {/* <Typography paragraph>
             maecenas accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam
             ultrices sagittis orci a.
-          </Typography>
+          </Typography> */}
         </main>
       </div>
     );

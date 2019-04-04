@@ -34,7 +34,7 @@ function CandidateItem(props) {
                 onClick={() => {
                     props.addProject({
                         projectName: itemtName,
-                        todoItems: [{ label: '', detail: '' }]
+                        //todoItems: [{ label: '', detail: '' }]
                     });
                     setItemName('');
                 }}
