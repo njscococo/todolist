@@ -6,8 +6,12 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 const styles = {
+    flexDiv:{
+        display: 'flex',
+        flexDirection: 'row'
+    },
     button: {
-        margin: '2px',
+        margin: '15px 2px',
     },
     input: {
         display: 'none',
@@ -17,7 +21,7 @@ function CandidateItem(props) {
     const [itemtName, setItemName] = useState('')
 
     return (
-        <div>
+        <div style={styles.flexDiv}>
             <TextField
                 id="candidateItem"
                 label="Project Name"
@@ -32,7 +36,7 @@ function CandidateItem(props) {
             />
             <Button variant="contained" color="primary" style={styles.button}
                 onClick={() => {
-                    props.addProject({
+                    props.addItem({
                         projectName: itemtName,
                         //todoItems: [{ label: '', detail: '' }]
                     });
@@ -53,9 +57,15 @@ function CandidateItem(props) {
 }
 
 CandidateItem.propTypes = {
+    isFlex: PropTypes.bool.isRequired,
     items: PropTypes.array,
-    isOpen: PropTypes.func.isRequired
+    isOpen: PropTypes.func.isRequired,
+    addItem: PropTypes.func.isRequired
 
+}
+
+CandidateItem.defaultProps = {
+    isFlex: false
 }
 
 export default CandidateItem;

@@ -95,6 +95,14 @@ class ResponsiveDrawer extends React.Component {
     return { isOpenAdd: false }
   })
 
+  addItem = (item) => {
+    console.log('Main addItem',this.state.selectedItem.todoItems, item);
+    
+    // this.setState((state) => {
+    //   return 
+    // })
+  }
+
   render() {
     const { classes, theme } = this.props;
     //console.log(classes);
@@ -116,7 +124,7 @@ class ResponsiveDrawer extends React.Component {
           <Collapse in={this.state.showProject} timeout="auto" unmountOnExit>
             <List component='div' disablePadding>
               {this.state.isOpenAdd ? (<CandidateItem items={this.state.projectList}
-                isOpen={this.cancelNewProject} addProject={this.addProject} />) : null}
+                isOpen={this.cancelNewProject} addItem={this.addProject} />) : null}
 
               {this.state.projectList.map((project, index) => (
                 <ListItem button key={project.projectName} className={classes.nested}
@@ -186,7 +194,7 @@ class ResponsiveDrawer extends React.Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <SearchBar />
-          <TodoItemHolder project={this.state.selectedItem} />
+          <TodoItemHolder project={this.state.selectedItem} addItem={this.addItem}/>
           {/* <Typography paragraph>
             maecenas accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam
             ultrices sagittis orci a.
