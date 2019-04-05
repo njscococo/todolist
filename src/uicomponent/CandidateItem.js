@@ -61,8 +61,11 @@ CandidateItem.propTypes = {
     items: PropTypes.array,
     isOpen: PropTypes.func.isRequired,
     addItem: PropTypes.func.isRequired
+<<<<<<< HEAD
 
 }
+=======
+>>>>>>> e436b80b544dd119883de7471c0a7569fab399f9
 
 CandidateItem.defaultProps = {
     isFlex: false
