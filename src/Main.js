@@ -92,8 +92,13 @@ class ResponsiveDrawer extends React.Component {
   }
 
   addItem = (item) => {
-    console.log('Main addItem',this.state.selectedItem.todoItems, item);
-    
+    console.log('Main addItem',this.state.selectedItem, item);
+    this.setState((state) => {
+      return {selectedItem:{
+        projectName: state.selectedItem.projectName,
+        todoItems: [...state.selectedItem.todoItems, item]}}
+      
+    })
     // this.setState((state) => {
     //   return 
     // })

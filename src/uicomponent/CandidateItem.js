@@ -8,10 +8,11 @@ import DeleteIcon from '@material-ui/icons/Delete';
 const styles = {
     flexDiv: {
         display: 'flex',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     button: {
-        margin: '15px 2px',
+        marginRight: '2px'
     },
     input: {
         display: 'none',
@@ -19,7 +20,7 @@ const styles = {
 };
 function CandidateItem(props) {
     const { selectedItem } = props
-    const [itemtName, setItemName] = useState('')
+    const [itemName, setItemName] = useState('')
     const [detail, setDetail] = useState('')
 
     return (
@@ -28,10 +29,8 @@ function CandidateItem(props) {
                 <TextField
                     id="candidateItem"
                     label={selectedItem ? "Task Name" : "Project Name"}
-                    //className={styles.button}
-                    value={itemtName}
+                    value={itemName}
                     onChange={(evt) => {
-                        //console.log(itemtName)
                         setItemName(evt.target.value);
                     }}
                     margin="normal"
@@ -40,36 +39,50 @@ function CandidateItem(props) {
                 {props.isFlex ? <TextField
                     id="div_detail"
                     label="Detail"
-                    //className={styles.button}
-                    value={itemtName}
+                    value={detail}
                     onChange={(evt) => {
-                        //console.log(itemtName)
-                        setItemName(evt.target.value);
+                        setDetail(evt.target.value);
                     }}
+                    multiline={true}
                     margin="normal"
                     variant="outlined"
                 /> : null}
 
             </div>
-            <Button variant="contained" color="primary" style={styles.button}
-                onClick={() => {
-                    //console.log('selectedItem',props.selectedItem)
-                    props.addItem({
-                        projectName: itemtName,
-                        //todoItems: [{ label: '', detail: '' }]
-                    });
-                    setItemName('');
-                }}
-            >
-                <AddCircleIcon style={{ marginRight: 5 }} />
-                Add
+            <div style={{marginLeft:'2px'}}>
+                <Button variant="contained" color="primary" style={styles.button}
+                    onClick={() => {
+                        //console.log('selectedItem',props.selectedItem)
+
+                        //selectedItem有值表示新增Task，沒有值表示新增Project
+                        if (selectedItem) {
+                            //console.log('select', selectedItem)
+                            props.addItem({
+                                label: itemName, detail: detail
+                            })
+                        } else {
+                            props.addItem({
+                                projectName: itemName,
+                                todoItems: []
+                            });
+                        }
+                        setItemName('');
+                        setDetail('');
+                        props.isOpen()
+                    }}
+                >
+                    <AddCircleIcon style={{ marginRight: 5 }} />
+                    Add
             </Button>
-            <Button variant="contained" color="secondary" style={styles.button}
-                onClick={() => props.isOpen()}
-            >
-                <DeleteIcon style={{ marginRight: 5 }} />
-                Cancel
+                <Button variant="contained" color="secondary" style={styles.button}
+                    onClick={() => props.isOpen()}
+                >
+                    <DeleteIcon style={{ marginRight: 5 }} />
+                    Cancel
             </Button>
+            </div>
+
+
         </div>
     )
 }

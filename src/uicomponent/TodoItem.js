@@ -32,25 +32,28 @@ function TodoItem(props) {
                         </Button>
                     </TableCell>
                 </TableRow>
-                {isAddItem ? (<TableRow>
-                    <TableCell colSpan={2}>
-                        <CandidateItem isFlex={true} isOpen={()=>setIsAddItem(false)} addItem={addItem} selectedItem={project}/>
-                    </TableCell>
-                </TableRow>) : null}
+                {isAddItem ? (
+                    <TableRow>
+                        <TableCell colSpan={2}>
+                            <CandidateItem isFlex={true} isOpen={() => setIsAddItem(false)} addItem={addItem} selectedItem={project} />
+                        </TableCell>
+                    </TableRow>) : null}
+                {project.todoItems.map((elm, idx) => {
+                    return (
+                        <TableRow key={`task_row_${idx}`} hover={true} >
+                            <TableCell align="left" padding="checkbox" style={{ width: "10%" }}>
+                                <Checkbox
+                                    checked={false}
+                                />
+                            </TableCell>
+                            <TableCell component="th" scope="row" padding="none">
+                                {`${elm.label} : ${elm.detail}`}
+                            </TableCell>
 
-                <TableRow>
-                    <TableCell align="left" padding="checkbox" style={{ width: "10%" }}>
-                        <Checkbox
-                            checked={false}
-                        //onChange={onSelectAllClick}
-                        />
-                    </TableCell>
+                        </TableRow>)
+                })}
 
-                    <TableCell component="th" scope="row" padding="none">
-                        {props.project.projectName}
-                    </TableCell>
 
-                </TableRow>
             </TableBody>
         </Table>
         // <List>

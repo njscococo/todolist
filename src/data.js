@@ -4,11 +4,11 @@ let data = [
         projects: [
             {
                 projectName: 'Personal',
-                //todoItems: [{label: '', detail: ''}]
+                todoItems: []
             },
             {
                 projectName: 'Work',
-                //todoItems: [{label: '', detail: ''}]
+                todoItems: []
             }
         ],        
     }
