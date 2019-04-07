@@ -91,10 +91,6 @@ class ResponsiveDrawer extends React.Component {
     })
   }
 
-  cancelNewProject = () => this.setState((state) => {
-    return { isOpenAdd: false }
-  })
-
   addItem = (item) => {
     console.log('Main addItem',this.state.selectedItem.todoItems, item);
     
@@ -102,6 +98,12 @@ class ResponsiveDrawer extends React.Component {
     //   return 
     // })
   }
+
+  cancelNewProject = () => this.setState((state) => {
+    return { isOpenAdd: false }
+  })
+
+  
 
   render() {
     const { classes, theme } = this.props;

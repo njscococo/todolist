@@ -13,28 +13,31 @@ import ListItem from '@material-ui/core/ListItem';
 import CandidateItem from './CandidateItem';
 
 function TodoItem(props) {
-    const {addItem} = props
-    const [count, setCount] = useState(0);
+    const { addItem, project } = props
+    const [isAddItem, setIsAddItem] = useState(false);
+    //const [isOpenCandidate, setIsOpenCandidate] = useState(false)
 
     useEffect(() => {
         console.log('useEffect', props);
     })
+
     return (
         <Table>
             <TableBody>
                 {}
                 <TableRow>
                     <TableCell colSpan={2}>
-                        <Button color="secondary" style={{ marginLeft: 5 }} onClick={() => addItem()}>
+                        <Button color="secondary" style={{ marginLeft: 5 }} onClick={() => setIsAddItem(true)}>
                             Add Task
                         </Button>
                     </TableCell>
                 </TableRow>
-                <TableRow>
+                {isAddItem ? (<TableRow>
                     <TableCell colSpan={2}>
-                        <CandidateItem />
+                        <CandidateItem isFlex={true} isOpen={()=>setIsAddItem(false)} addItem={addItem} selectedItem={project}/>
                     </TableCell>
-                </TableRow>
+                </TableRow>) : null}
+
                 <TableRow>
                     <TableCell align="left" padding="checkbox" style={{ width: "10%" }}>
                         <Checkbox
@@ -44,7 +47,7 @@ function TodoItem(props) {
                     </TableCell>
 
                     <TableCell component="th" scope="row" padding="none">
-                        {props.items.projectName}
+                        {props.project.projectName}
                     </TableCell>
 
                 </TableRow>
@@ -64,7 +67,7 @@ function TodoItem(props) {
 }
 
 TodoItem.propTypes = {
-    items: PropTypes.object.isRequired
+    project: PropTypes.object.isRequired,
 }
 
 export default TodoItem

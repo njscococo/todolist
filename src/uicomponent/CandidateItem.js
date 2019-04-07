@@ -6,7 +6,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 const styles = {
-    flexDiv:{
+    flexDiv: {
         display: 'flex',
         flexDirection: 'row'
     },
@@ -18,24 +18,42 @@ const styles = {
     },
 };
 function CandidateItem(props) {
+    const { selectedItem } = props
     const [itemtName, setItemName] = useState('')
+    const [detail, setDetail] = useState('')
 
     return (
-        <div style={styles.flexDiv}>
-            <TextField
-                id="candidateItem"
-                label="Project Name"
-                //className={styles.button}
-                value={itemtName}
-                onChange={(evt) => {
-                    //console.log(itemtName)
-                    setItemName(evt.target.value);
-                }}
-                margin="normal"
-                variant="outlined"
-            />
+        <div style={props.isFlex ? styles.flexDiv : null}>
+            <div style={styles.flexDiv}>
+                <TextField
+                    id="candidateItem"
+                    label={selectedItem ? "Task Name" : "Project Name"}
+                    //className={styles.button}
+                    value={itemtName}
+                    onChange={(evt) => {
+                        //console.log(itemtName)
+                        setItemName(evt.target.value);
+                    }}
+                    margin="normal"
+                    variant="outlined"
+                />
+                {props.isFlex ? <TextField
+                    id="div_detail"
+                    label="Detail"
+                    //className={styles.button}
+                    value={itemtName}
+                    onChange={(evt) => {
+                        //console.log(itemtName)
+                        setItemName(evt.target.value);
+                    }}
+                    margin="normal"
+                    variant="outlined"
+                /> : null}
+
+            </div>
             <Button variant="contained" color="primary" style={styles.button}
                 onClick={() => {
+                    //console.log('selectedItem',props.selectedItem)
                     props.addItem({
                         projectName: itemtName,
                         //todoItems: [{ label: '', detail: '' }]
@@ -61,11 +79,8 @@ CandidateItem.propTypes = {
     items: PropTypes.array,
     isOpen: PropTypes.func.isRequired,
     addItem: PropTypes.func.isRequired
-<<<<<<< HEAD
 
 }
-=======
->>>>>>> e436b80b544dd119883de7471c0a7569fab399f9
 
 CandidateItem.defaultProps = {
     isFlex: false
