@@ -17,8 +17,9 @@ import Popover from '@material-ui/core/Popover';
 function TodoItem(props) {
     const { addItem, project, checkItem, delItem, filterText, filterDone } = props
     const [isAddItem, setIsAddItem] = useState(false);
-    const [showDialog, setShowDialog] = useState(false);
-    const [anchorEl, setAnchorEl] = useState(null)
+    // const [showDialog, setShowDialog] = useState(false);
+    // const [anchorEl, setAnchorEl] = useState(null);
+    const [editIndex, setEditIndex] = useState(-1);
 
     let items = filterDone === 'all' ? project.todoItems :
         (filterDone === 'done' ? project.todoItems.filter((elm) => elm.isDone === true) : project.todoItems.filter((elm) => elm.isDone === false))
@@ -28,7 +29,7 @@ function TodoItem(props) {
         <Table>
             <TableBody>
                 <TableRow>
-                    <TableCell colSpan={3}>
+                    <TableCell colSpan={4}>
                         <Button color="secondary" style={{ marginLeft: 5 }} onClick={() => setIsAddItem(true)}>
                             Add Task
                         </Button>
@@ -36,67 +37,62 @@ function TodoItem(props) {
                 </TableRow>
                 {isAddItem ? (
                     <TableRow>
-                        <TableCell colSpan={3}>
+                        <TableCell colSpan={4}>
                             <CandidateItem isFlex={true} isOpen={() => setIsAddItem(false)} addItem={addItem} selectedItem={project} />
                         </TableCell>
                     </TableRow>) : null}
                 {items
                     .filter((el) => el.label.indexOf(filterText) >= 0)
                     .map((elm, idx) => {
-                        return (
-                            <TableRow key={`task_row_${idx}`} hover={true} selected={elm.isDone}>
-                                <TableCell align="left" padding="checkbox" style={{ width: "10%" }}>
-                                    <Checkbox
-                                        name={`ck_${idx}`}
-                                        checked={elm.isDone}
-                                        onChange={(evt) => {
-                                            //console.log('checkbox onChange', evt.target);
-                                            checkItem(idx)
-                                        }}
-                                    />
-                                </TableCell>
-                                <TableCell component="th" scope="row" padding="none">
-                                    {`${elm.label} : ${elm.detail}`}
-                                    <ChatBubbleOutlineIcon
-                                        onMouseEnter={(evt) => {
-                                            console.log('enter');
-                                            setShowDialog(true)
-                                            setAnchorEl(evt.currentTarget)
-                                        }}
-                                        // onMouseOut={(evt) => {
-                                        //     console.log('out');
-                                        //     setShowDialog(false)
-                                        //     setAnchorEl(null)
-                                        // }}
-                                    />
-                                    <Popover
-                                        id="simple-popper"
-                                        open={showDialog}
-                                        anchorEl={anchorEl}
-                                        onClose={() => {
-                                            setShowDialog(false)
-                                            setAnchorEl(null)
-                                        }}
-                                        anchorOrigin={{
-                                            vertical: 'bottom',
-                                            horizontal: 'center',
-                                        }}
-                                        transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'center',
-                                        }}
-                                    >
-                                        {elm.label}
-                                    </Popover>
+                        const row = idx === editIndex ? 
+                        (<TableRow>
+                            <TableCell colSpan={4}>
+                                <CandidateItem isFlex={true} isOpen={() => setIsAddItem(false)} addItem={addItem} selectedItem={project} />
+                            </TableCell>
+                        </TableRow>) 
+                        : (<TableRow key={`task_row_${idx}`} hover={true} selected={elm.isDone}
+                            onClick={(evt) => {
+                                setEditIndex(idx)
 
-                                </TableCell>
-                                <TableCell>
-                                    <Button color="secondary" style={{ marginLeft: 5 }} onClick={() => delItem(idx)}>
-                                        <DeleteForeverIcon />
-                                    </Button>
-                                </TableCell>
+                                console.log('row', evt.target)
+                            }}
+                        >
+                            <TableCell align="left" padding="checkbox" style={{ width: "10%" }}>
+                                <Checkbox
+                                    name={`ck_${idx}`}
+                                    checked={elm.isDone}
+                                    onChange={(evt) => {
+                                        //console.log('checkbox onChange', evt.target);
+                                        checkItem(idx)
+                                    }}
+                                />
+                            </TableCell>
+                            <TableCell component="td" scope="row" padding="none">
+                                {elm.label}
+                                {/* <ChatBubbleOutlineIcon
+                                name={`icon_${idx}`}
+                                onClick={(evt) => {
+                                    //this.setState({ [name]: value, event: evt })
+                                    // setShowDialog(true)
+                                    // setAnchorEl(evt.currentTarget)
+                                }}
+                            /> */}
+                            </TableCell>
+                            <TableCell>
+                                {elm.detail}
+                            </TableCell>
+                            <TableCell>
+                                <Button color="secondary" style={{ marginLeft: 5 }}
+                                    onClick={(evt) => {
+                                        evt.stopPropagation()
+                                        delItem(idx)
+                                    }}>
+                                    <DeleteForeverIcon />
+                                </Button>
+                            </TableCell>
 
-                            </TableRow>)
+                        </TableRow>)
+                        return row;
                     })}
             </TableBody>
         </Table>

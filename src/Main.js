@@ -92,7 +92,7 @@ class ResponsiveDrawer extends React.Component {
     })
   }
 
-  addItem = (item) => {
+  addItem = (item, selectedIdx) => {
     //console.log('addItem', item)
     this.setState((state) => {
       return {
@@ -102,6 +102,10 @@ class ResponsiveDrawer extends React.Component {
         ...state.projectList.slice(state.selectedIndex + 1)]
       }
     })
+  }
+
+  editItem = (item, selectedIdx) => {
+    
   }
 
   delItem = (idx) => {

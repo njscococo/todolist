@@ -52,7 +52,7 @@ function CandidateItem(props) {
             <div style={{marginLeft:'2px'}}>
                 <Button variant="contained" color="primary" style={styles.button}
                     onClick={() => {
-                        //console.log('selectedItem',props.selectedItem)
+                        console.log('selectedItem',props.selectedItem)
 
                         //selectedItem有值表示新增Task，沒有值表示新增Project
                         if (selectedItem) {
