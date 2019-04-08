@@ -11,13 +11,18 @@ import Button from '@material-ui/core/Button';
 import CandidateItem from './CandidateItem';
 
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
+import Popover from '@material-ui/core/Popover';
 
 function TodoItem(props) {
     const { addItem, project, checkItem, delItem, filterText, filterDone } = props
     const [isAddItem, setIsAddItem] = useState(false);
+    const [showDialog, setShowDialog] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null)
 
     let items = filterDone === 'all' ? project.todoItems :
         (filterDone === 'done' ? project.todoItems.filter((elm) => elm.isDone === true) : project.todoItems.filter((elm) => elm.isDone === false))
+
 
     return (
         <Table>
@@ -36,7 +41,6 @@ function TodoItem(props) {
                         </TableCell>
                     </TableRow>) : null}
                 {items
-                    //.filter((e) => e.isDone)
                     .filter((el) => el.label.indexOf(filterText) >= 0)
                     .map((elm, idx) => {
                         return (
@@ -53,6 +57,38 @@ function TodoItem(props) {
                                 </TableCell>
                                 <TableCell component="th" scope="row" padding="none">
                                     {`${elm.label} : ${elm.detail}`}
+                                    <ChatBubbleOutlineIcon
+                                        onMouseEnter={(evt) => {
+                                            console.log('enter');
+                                            setShowDialog(true)
+                                            setAnchorEl(evt.currentTarget)
+                                        }}
+                                        // onMouseOut={(evt) => {
+                                        //     console.log('out');
+                                        //     setShowDialog(false)
+                                        //     setAnchorEl(null)
+                                        // }}
+                                    />
+                                    <Popover
+                                        id="simple-popper"
+                                        open={showDialog}
+                                        anchorEl={anchorEl}
+                                        onClose={() => {
+                                            setShowDialog(false)
+                                            setAnchorEl(null)
+                                        }}
+                                        anchorOrigin={{
+                                            vertical: 'bottom',
+                                            horizontal: 'center',
+                                        }}
+                                        transformOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'center',
+                                        }}
+                                    >
+                                        {elm.label}
+                                    </Popover>
+
                                 </TableCell>
                                 <TableCell>
                                     <Button color="secondary" style={{ marginLeft: 5 }} onClick={() => delItem(idx)}>
