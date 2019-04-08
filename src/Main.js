@@ -72,7 +72,8 @@ class ResponsiveDrawer extends React.Component {
     showProject: false,
     isOpenAdd: false,
     selectedIndex: -1,
-    filterText: ''
+    filterText: '',
+    filterDone: 'all'
   };
 
   handleDrawerToggle = () => {
@@ -118,13 +119,25 @@ class ResponsiveDrawer extends React.Component {
     })
   }
 
-  filterItem = (searchText) => {
-    //console.log('searchText', searchText);
-    this.setState((state) => {
-      return {
-        filterText: searchText
-      }
-    })
+  filterItem = (evt, searchText) => {
+    console.log('evt', evt.target.name);
+    console.log('searchText', searchText);
+
+    if(evt.target.name==='itemFilter'){
+      this.setState((state) => {
+        return {
+          filterDone: searchText
+        };
+      })
+
+    }else{
+      this.setState((state) => {
+        return {
+          filterText: searchText
+        }
+      })
+    }
+    
   }
 
   checkItem = (idx) => {
@@ -241,6 +254,7 @@ class ResponsiveDrawer extends React.Component {
             checkItem={this.checkItem}
             delItem={this.delItem}
             filterText={this.state.filterText}
+            filterDone={this.state.filterDone}
           />       
         </main>
       </div>

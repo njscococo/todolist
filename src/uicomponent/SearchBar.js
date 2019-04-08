@@ -5,13 +5,17 @@ import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Divider from '@material-ui/core/Divider';
 
 const styles = {
     root: {
         padding: '2px 4px',
         display: 'flex',
         alignItems: 'center',
-        width: 400,
+        width: 600,
     },
     input: {
         marginLeft: 8,
@@ -30,6 +34,7 @@ const styles = {
 function SearchBar(props) {
     const { classes, filterItem } = props;
     const [searchText, setSearchText] = useState('');
+    const [itemStatus, setItemStatus ] = useState('all')
 
     return (
         <div>
@@ -37,15 +42,30 @@ function SearchBar(props) {
                 <InputBase className={classes.input} placeholder="Search Todo Items" onChange={(evt) => {
                     //console.log('search', evt.target.value, project);
                     setSearchText(evt.target.value);
-                    filterItem(evt.target.value);
+                    filterItem(evt, evt.target.value);
                 }} />
                 <IconButton className={classes.iconButton} aria-label="Search"
-                    onClick={() => {
-                        filterItem(searchText)
+                    onClick={(evt) => {
+                        filterItem(evt, searchText)
                     }}
                 >
                     <SearchIcon />
                 </IconButton>
+                <Divider className={classes.divider} />
+                <RadioGroup
+                    name="itemFilter"
+                    style={{display:'flex', flexDirection:'row',marginLeft: '8px'}}
+                    //className={classes.group}
+                    value={itemStatus}
+                    onChange={(evt) => {
+                        setItemStatus(evt.target.value)
+                        filterItem(evt, evt.target.value)
+                    }}
+                >
+                    <FormControlLabel value="all" control={<Radio />} label="All" />
+                    <FormControlLabel value="done" control={<Radio />} label="Finished" />
+                    <FormControlLabel value="undone" control={<Radio />} label="Not Finished" />
+                </RadioGroup>
 
             </Paper>
         </div>

@@ -13,8 +13,11 @@ import CandidateItem from './CandidateItem';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 function TodoItem(props) {
-    const { addItem, project, checkItem, delItem, filterText } = props
+    const { addItem, project, checkItem, delItem, filterText, filterDone } = props
     const [isAddItem, setIsAddItem] = useState(false);
+
+    let items = filterDone === 'all' ? project.todoItems :
+        (filterDone === 'done' ? project.todoItems.filter((elm) => elm.isDone === true) : project.todoItems.filter((elm) => elm.isDone === false))
 
     return (
         <Table>
@@ -32,33 +35,36 @@ function TodoItem(props) {
                             <CandidateItem isFlex={true} isOpen={() => setIsAddItem(false)} addItem={addItem} selectedItem={project} />
                         </TableCell>
                     </TableRow>) : null}
-                {project.todoItems.filter((el) => el.label.indexOf(filterText)>=0).map((elm, idx) => {
-                    return (
-                        <TableRow key={`task_row_${idx}`} hover={true} selected={elm.isDone}>
-                            <TableCell align="left" padding="checkbox" style={{ width: "10%" }}>
-                                <Checkbox
-                                    name={`ck_${idx}`}
-                                    checked={elm.isDone}
-                                    onChange={(evt) => {
-                                        //console.log('checkbox onChange', evt.target);
-                                        checkItem(idx)
-                                    }}
-                                />
-                            </TableCell>
-                            <TableCell component="th" scope="row" padding="none">
-                                {`${elm.label} : ${elm.detail}`}
-                            </TableCell>
-                            <TableCell>
-                                <Button color="secondary" style={{ marginLeft: 5 }} onClick={() => delItem(idx)}>
-                                    <DeleteForeverIcon />
-                                </Button>
-                            </TableCell>
+                {items
+                    //.filter((e) => e.isDone)
+                    .filter((el) => el.label.indexOf(filterText) >= 0)
+                    .map((elm, idx) => {
+                        return (
+                            <TableRow key={`task_row_${idx}`} hover={true} selected={elm.isDone}>
+                                <TableCell align="left" padding="checkbox" style={{ width: "10%" }}>
+                                    <Checkbox
+                                        name={`ck_${idx}`}
+                                        checked={elm.isDone}
+                                        onChange={(evt) => {
+                                            //console.log('checkbox onChange', evt.target);
+                                            checkItem(idx)
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell component="th" scope="row" padding="none">
+                                    {`${elm.label} : ${elm.detail}`}
+                                </TableCell>
+                                <TableCell>
+                                    <Button color="secondary" style={{ marginLeft: 5 }} onClick={() => delItem(idx)}>
+                                        <DeleteForeverIcon />
+                                    </Button>
+                                </TableCell>
 
-                        </TableRow>)
-                })}
+                            </TableRow>)
+                    })}
             </TableBody>
         </Table>
-       
+
     );
 
 }
