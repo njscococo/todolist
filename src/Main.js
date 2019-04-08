@@ -71,8 +71,7 @@ class ResponsiveDrawer extends React.Component {
     projectList: defaultData.data[0].projects,
     showProject: false,
     isOpenAdd: false,
-    selectedItem: {}
-
+    selectedIndex: -1
   };
 
   handleDrawerToggle = () => {
@@ -92,27 +91,51 @@ class ResponsiveDrawer extends React.Component {
   }
 
   addItem = (item) => {
-    console.log('Main addItem',this.state.selectedItem, item);
+    //console.log('addItem', item)
     this.setState((state) => {
-      return {selectedItem:{
-        projectName: state.selectedItem.projectName,
-        todoItems: [...state.selectedItem.todoItems, item]}}
-      
+      return {
+        projectList: [...state.projectList.slice(0, state.selectedIndex),
+        Object.assign({}, state.projectList[state.selectedIndex], 
+          { todoItems: [...state.projectList[state.selectedIndex].todoItems, item] }),
+        ...state.projectList.slice(state.selectedIndex + 1)]
+      }
     })
-    // this.setState((state) => {
-    //   return 
-    // })
+  }
+
+  delItem = (idx) => {
+    //console.log('checkItem', idx,...this.state.projectList[this.state.selectedIndex].todoItems);
+    this.setState((state) => {
+      return {
+        projectList: [...state.projectList.slice(0, state.selectedIndex),
+          Object.assign({}, state.projectList[state.selectedIndex], 
+            { todoItems: state.projectList[state.selectedIndex].todoItems.splice( idx, 1) }),
+          ...state.projectList.slice(state.selectedIndex + 1)]
+      }
+    })
+  }
+
+  checkItem = (idx) => {
+    //console.log('checkItem', idx, this.state.projectList[idx]);
+    this.setState((state) => {
+      return {
+        projectList: [...state.projectList.slice(0, state.selectedIndex),
+          Object.assign({}, state.projectList[state.selectedIndex], 
+            { todoItems: [...state.projectList[state.selectedIndex].todoItems.slice(0, idx),
+              Object.assign({},state.projectList[state.selectedIndex].todoItems[idx], {isDone: !state.projectList[state.selectedIndex].todoItems[idx].isDone}),
+              ...state.projectList[state.selectedIndex].todoItems.slice(idx+1)
+            ] }),
+          ...state.projectList.slice(state.selectedIndex + 1)]
+      };
+    })
   }
 
   cancelNewProject = () => this.setState((state) => {
     return { isOpenAdd: false }
   })
 
-  
-
   render() {
     const { classes, theme } = this.props;
-    //console.log(classes);
+    //console.log('render projectList', this.state.projectList);
     //console.log(theme);
 
     const drawer = (
@@ -137,7 +160,7 @@ class ResponsiveDrawer extends React.Component {
                 <ListItem button key={project.projectName} className={classes.nested}
                   onClick={() => {
                     this.setState((state) => {
-                      return { selectedItem: this.state.projectList[index]}
+                      return { selectedIndex: index }
                     })
                   }}
                 >
@@ -165,12 +188,11 @@ class ResponsiveDrawer extends React.Component {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap>
-              Responsive drawer
+              TodoList
             </Typography>
           </Toolbar>
         </AppBar>
         <nav className={classes.drawer}>
-          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
 
           <Hidden smUp implementation="css">
             <Drawer
@@ -201,11 +223,11 @@ class ResponsiveDrawer extends React.Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <SearchBar />
-          <TodoItemHolder project={this.state.selectedItem} addItem={this.addItem}/>
-          {/* <Typography paragraph>
-            maecenas accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam
-            ultrices sagittis orci a.
-          </Typography> */}
+          <TodoItemHolder project={this.state.projectList[this.state.selectedIndex] ? this.state.projectList[this.state.selectedIndex] : {}}
+            addItem={this.addItem} 
+            checkItem={this.checkItem}
+            delItem={this.delItem}
+          />       
         </main>
       </div>
     );

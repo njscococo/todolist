@@ -58,7 +58,9 @@ function CandidateItem(props) {
                         if (selectedItem) {
                             //console.log('select', selectedItem)
                             props.addItem({
-                                label: itemName, detail: detail
+                                label: itemName, 
+                                detail: detail,
+                                isDone: false
                             })
                         } else {
                             props.addItem({

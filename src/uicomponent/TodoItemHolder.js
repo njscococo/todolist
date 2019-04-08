@@ -9,8 +9,9 @@ import TodoItem from './TodoItem';
 
 
 function TodoItemHolder(props) {
-    const { project, addItem } = props
-    const projectName = project.projectName
+    const { project, addItem, checkItem, delItem } = props
+    
+    const projectName =  project.projectName 
     
 
 
@@ -21,7 +22,7 @@ function TodoItemHolder(props) {
             </Typography >
 
             <Typography variant="body1" component="div" align="left" style={{ marginLeft: 10 }}>
-                {projectName ? <TodoItem project={project} addItem={addItem}></TodoItem> : null}
+                {projectName ? <TodoItem project={project} addItem={addItem} checkItem={checkItem} delItem={delItem}></TodoItem> : null}
             </Typography>
 
 
