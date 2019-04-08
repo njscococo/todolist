@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-// import SearchBar from './SearchBar'
-import Button from '@material-ui/core/Button';
+
 import TodoItem from './TodoItem';
 
 
 
 function TodoItemHolder(props) {
-    const { project, addItem, checkItem, delItem } = props
+    const { project, addItem, checkItem, delItem, filterText } = props
     
     const projectName =  project.projectName 
     
@@ -22,7 +21,7 @@ function TodoItemHolder(props) {
             </Typography >
 
             <Typography variant="body1" component="div" align="left" style={{ marginLeft: 10 }}>
-                {projectName ? <TodoItem project={project} addItem={addItem} checkItem={checkItem} delItem={delItem}></TodoItem> : null}
+                {projectName ? <TodoItem project={project} addItem={addItem} checkItem={checkItem} delItem={delItem} filterText={filterText}></TodoItem> : null}
             </Typography>
 
 

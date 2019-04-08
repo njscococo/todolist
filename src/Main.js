@@ -71,7 +71,8 @@ class ResponsiveDrawer extends React.Component {
     projectList: defaultData.data[0].projects,
     showProject: false,
     isOpenAdd: false,
-    selectedIndex: -1
+    selectedIndex: -1,
+    filterText: ''
   };
 
   handleDrawerToggle = () => {
@@ -103,13 +104,25 @@ class ResponsiveDrawer extends React.Component {
   }
 
   delItem = (idx) => {
-    //console.log('checkItem', idx,...this.state.projectList[this.state.selectedIndex].todoItems);
+    console.log('checkItem', idx,[...this.state.projectList[this.state.selectedIndex].todoItems]);
+    //console.log('checkItem', idx,[...this.state.projectList[this.state.selectedIndex].todoItems].splice(idx,1));
     this.setState((state) => {
+      let tmp = [...state.projectList[state.selectedIndex].todoItems];
+      tmp.splice(idx, 1)
       return {
         projectList: [...state.projectList.slice(0, state.selectedIndex),
           Object.assign({}, state.projectList[state.selectedIndex], 
-            { todoItems: state.projectList[state.selectedIndex].todoItems.splice( idx, 1) }),
+            { todoItems: tmp }),
           ...state.projectList.slice(state.selectedIndex + 1)]
+      }
+    })
+  }
+
+  filterItem = (searchText) => {
+    //console.log('searchText', searchText);
+    this.setState((state) => {
+      return {
+        filterText: searchText
       }
     })
   }
@@ -222,11 +235,12 @@ class ResponsiveDrawer extends React.Component {
         </nav>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <SearchBar />
+          <SearchBar project={this.state.projectList[this.state.selectedIndex] ? this.state.projectList[this.state.selectedIndex] : {}} filterItem={this.filterItem}/>
           <TodoItemHolder project={this.state.projectList[this.state.selectedIndex] ? this.state.projectList[this.state.selectedIndex] : {}}
             addItem={this.addItem} 
             checkItem={this.checkItem}
             delItem={this.delItem}
+            filterText={this.state.filterText}
           />       
         </main>
       </div>

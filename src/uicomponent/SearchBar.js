@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -28,13 +28,22 @@ const styles = {
 };
 
 function SearchBar(props) {
-    const { classes } = props;
+    const { classes, filterItem } = props;
+    const [searchText, setSearchText] = useState('');
 
     return (
         <div>
-            <Paper className={classes.root} elevation={1} style={{marginBottom:5}}>
-                <InputBase className={classes.input} placeholder="Search Todo Items" />
-                <IconButton className={classes.iconButton} aria-label="Search">
+            <Paper className={classes.root} elevation={1} style={{ marginBottom: 5 }}>
+                <InputBase className={classes.input} placeholder="Search Todo Items" onChange={(evt) => {
+                    //console.log('search', evt.target.value, project);
+                    setSearchText(evt.target.value);
+                    filterItem(evt.target.value);
+                }} />
+                <IconButton className={classes.iconButton} aria-label="Search"
+                    onClick={() => {
+                        filterItem(searchText)
+                    }}
+                >
                     <SearchIcon />
                 </IconButton>
 

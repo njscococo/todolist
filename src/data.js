@@ -4,7 +4,7 @@ let data = [
         projects: [
             {
                 projectName: 'Personal',
-                todoItems: []
+                todoItems: [{label:'first', detail:'go', isDone:false},{label:'second', detail:'gogo', isDone:false}]
             },
             {
                 projectName: 'Work',
