@@ -93,18 +93,24 @@ class ResponsiveDrawer extends React.Component {
   }
 
   addItem = (item, selectedIdx) => {
-    //console.log('addItem', item)
-    this.setState((state) => {
-      return {
-        projectList: [...state.projectList.slice(0, state.selectedIndex),
-        Object.assign({}, state.projectList[state.selectedIndex], 
-          { todoItems: [...state.projectList[state.selectedIndex].todoItems, item] }),
-        ...state.projectList.slice(state.selectedIndex + 1)]
-      }
-    })
+    console.log('addItem', item, selectedIdx)
+    if(selectedIdx>-1){
+
+    }else{
+      this.setState((state) => {
+        return {
+          projectList: [...state.projectList.slice(0, state.selectedIndex),
+          Object.assign({}, state.projectList[state.selectedIndex], 
+            { todoItems: [...state.projectList[state.selectedIndex].todoItems, item] }),
+          ...state.projectList.slice(state.selectedIndex + 1)]
+        }
+      })
+    }
+    
   }
 
   editItem = (item, selectedIdx) => {
+    console.log('edit', item, selectedIdx);
     
   }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button'
@@ -19,9 +19,63 @@ const styles = {
     },
 };
 function CandidateItem(props) {
-    const { selectedItem } = props
-    const [itemName, setItemName] = useState('')
-    const [detail, setDetail] = useState('')
+    const { selectedItem, taskIndex } = props
+
+    const [itemName, setItemName] = useState(taskIndex >= 0 ? selectedItem.todoItems[taskIndex].label : '')
+    const [detail, setDetail] = useState(taskIndex >= 0 ? selectedItem.todoItems[taskIndex].detail : '')
+
+    let addModeButton = (
+        <Button variant="contained" color="primary" style={styles.button}
+            onClick={() => {
+                console.log('selectedItem', props.selectedItem, taskIndex)
+
+                //selectedItem有值表示新增Task，沒有值表示新增Project
+                if (selectedItem) {
+                    //console.log('select', selectedItem)
+                    props.addItem({
+                        label: itemName,
+                        detail: detail,
+                        isDone: false
+                    })
+                } else {
+                    props.addItem({
+                        projectName: itemName,
+                        todoItems: []
+                    });
+                }
+                setItemName('');
+                setDetail('');
+                props.isOpen()
+            }}
+        >
+            <AddCircleIcon style={{ marginRight: 5 }} />
+            Add
+        </Button>
+    )
+
+    let editModeButton = (
+        <Button variant="contained" color="primary" style={styles.button}
+            onClick={() => {
+                console.log('selectedItem', props.selectedItem, taskIndex)
+
+
+                //console.log('select', selectedItem)
+                props.addItem({
+                    label: itemName,
+                    detail: detail,
+                    isDone: false
+                },taskIndex)
+
+                setItemName('');
+                setDetail('');
+                props.isOpen()
+            }}
+        >
+            <AddCircleIcon style={{ marginRight: 5 }} />
+            Edit
+        </Button>
+    )
+
 
     return (
         <div style={props.isFlex ? styles.flexDiv : null}>
@@ -36,52 +90,32 @@ function CandidateItem(props) {
                     margin="normal"
                     variant="outlined"
                 />
-                {props.isFlex ? <TextField
-                    id="div_detail"
-                    label="Detail"
-                    value={detail}
-                    onChange={(evt) => {
-                        setDetail(evt.target.value);
-                    }}
-                    multiline={true}
-                    margin="normal"
-                    variant="outlined"
-                /> : null}
+                {props.isFlex ?
+                    <TextField
+                        id="div_detail"
+                        label="Detail"
+                        value={detail}
+                        onChange={(evt) => {
+                            setDetail(evt.target.value);
+                        }}
+                        multiline={true}
+                        margin="normal"
+                        variant="outlined"
+                    /> : null}
 
             </div>
-            <div style={{marginLeft:'2px'}}>
-                <Button variant="contained" color="primary" style={styles.button}
-                    onClick={() => {
-                        console.log('selectedItem',props.selectedItem)
+            <div style={{ marginLeft: '2px' }}>
+                {taskIndex >= 0 ? (editModeButton) : (addModeButton)}
 
-                        //selectedItem有值表示新增Task，沒有值表示新增Project
-                        if (selectedItem) {
-                            //console.log('select', selectedItem)
-                            props.addItem({
-                                label: itemName, 
-                                detail: detail,
-                                isDone: false
-                            })
-                        } else {
-                            props.addItem({
-                                projectName: itemName,
-                                todoItems: []
-                            });
-                        }
-                        setItemName('');
-                        setDetail('');
-                        props.isOpen()
-                    }}
-                >
-                    <AddCircleIcon style={{ marginRight: 5 }} />
-                    Add
-            </Button>
                 <Button variant="contained" color="secondary" style={styles.button}
-                    onClick={() => props.isOpen()}
+                    onClick={() => {
+                        props.isOpen();
+                        console.log('cancel');
+                    }}
                 >
                     <DeleteIcon style={{ marginRight: 5 }} />
                     Cancel
-            </Button>
+                </Button>
             </div>
 
 
@@ -93,12 +127,13 @@ CandidateItem.propTypes = {
     isFlex: PropTypes.bool.isRequired,
     items: PropTypes.array,
     isOpen: PropTypes.func.isRequired,
-    addItem: PropTypes.func.isRequired
-
+    addItem: PropTypes.func.isRequired,
+    taskIndex: PropTypes.number
 }
 
 CandidateItem.defaultProps = {
-    isFlex: false
+    isFlex: false,
+    taskIndex: -1
 }
 
 export default CandidateItem;

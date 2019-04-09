@@ -21,9 +21,14 @@ function TodoItem(props) {
     // const [anchorEl, setAnchorEl] = useState(null);
     const [editIndex, setEditIndex] = useState(-1);
 
+    let candidate = (
+        <TableRow>
+            <TableCell colSpan={4}>
+                <CandidateItem isFlex={true} isOpen={() => setIsAddItem(false)} addItem={addItem} selectedItem={project} />
+            </TableCell>
+        </TableRow>)
     let items = filterDone === 'all' ? project.todoItems :
         (filterDone === 'done' ? project.todoItems.filter((elm) => elm.isDone === true) : project.todoItems.filter((elm) => elm.isDone === false))
-
 
     return (
         <Table>
@@ -35,41 +40,37 @@ function TodoItem(props) {
                         </Button>
                     </TableCell>
                 </TableRow>
-                {isAddItem ? (
-                    <TableRow>
-                        <TableCell colSpan={4}>
-                            <CandidateItem isFlex={true} isOpen={() => setIsAddItem(false)} addItem={addItem} selectedItem={project} />
-                        </TableCell>
-                    </TableRow>) : null}
+                {isAddItem ? candidate : null}
                 {items
                     .filter((el) => el.label.indexOf(filterText) >= 0)
                     .map((elm, idx) => {
-                        const row = idx === editIndex ? 
-                        (<TableRow>
-                            <TableCell colSpan={4}>
-                                <CandidateItem isFlex={true} isOpen={() => setIsAddItem(false)} addItem={addItem} selectedItem={project} />
-                            </TableCell>
-                        </TableRow>) 
-                        : (<TableRow key={`task_row_${idx}`} hover={true} selected={elm.isDone}
-                            onClick={(evt) => {
-                                setEditIndex(idx)
+                        const row = idx === editIndex ?
+                            (<TableRow key={`task_row_${idx}`}>
+                                <TableCell colSpan={4}>
+                                    <CandidateItem isFlex={true} isOpen={() => setEditIndex(-1)} addItem={addItem} selectedItem={project} taskIndex={idx}/>
+                                </TableCell>
+                            </TableRow>)
+                            : (<TableRow key={`task_row_${idx}`} hover={true} selected={elm.isDone}
+                                onClick={(evt) => {
+                                    setEditIndex(idx)
 
-                                console.log('row', evt.target)
-                            }}
-                        >
-                            <TableCell align="left" padding="checkbox" style={{ width: "10%" }}>
-                                <Checkbox
-                                    name={`ck_${idx}`}
-                                    checked={elm.isDone}
-                                    onChange={(evt) => {
-                                        //console.log('checkbox onChange', evt.target);
-                                        checkItem(idx)
-                                    }}
-                                />
-                            </TableCell>
-                            <TableCell component="td" scope="row" padding="none">
-                                {elm.label}
-                                {/* <ChatBubbleOutlineIcon
+                                    console.log('row', evt.target)
+                                }}
+                            >
+                                <TableCell align="left" padding="checkbox" style={{ width: "10%" }}>
+                                    <Checkbox
+                                        name={`ck_${idx}`}
+                                        checked={elm.isDone}
+                                        onClick={(evt) => evt.stopPropagation()}
+                                        onChange={(evt) => {                                            
+                                            //console.log('checkbox onChange', evt.target);
+                                            checkItem(idx)
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell component="td" scope="row" padding="none">
+                                    {elm.label}
+                                    {/* <ChatBubbleOutlineIcon
                                 name={`icon_${idx}`}
                                 onClick={(evt) => {
                                     //this.setState({ [name]: value, event: evt })
@@ -77,21 +78,20 @@ function TodoItem(props) {
                                     // setAnchorEl(evt.currentTarget)
                                 }}
                             /> */}
-                            </TableCell>
-                            <TableCell>
-                                {elm.detail}
-                            </TableCell>
-                            <TableCell>
-                                <Button color="secondary" style={{ marginLeft: 5 }}
-                                    onClick={(evt) => {
-                                        evt.stopPropagation()
-                                        delItem(idx)
-                                    }}>
-                                    <DeleteForeverIcon />
-                                </Button>
-                            </TableCell>
-
-                        </TableRow>)
+                                </TableCell>
+                                <TableCell>
+                                    {elm.detail}
+                                </TableCell>
+                                <TableCell>
+                                    <Button color="secondary" style={{ marginLeft: 5 }}
+                                        onClick={(evt) => {
+                                            evt.stopPropagation()
+                                            delItem(idx)
+                                        }}>
+                                        <DeleteForeverIcon />
+                                    </Button>
+                                </TableCell>
+                            </TableRow>)
                         return row;
                     })}
             </TableBody>
