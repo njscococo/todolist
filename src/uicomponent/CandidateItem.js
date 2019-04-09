@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button'
@@ -27,8 +27,6 @@ function CandidateItem(props) {
     let addModeButton = (
         <Button variant="contained" color="primary" style={styles.button}
             onClick={() => {
-                console.log('selectedItem', props.selectedItem, taskIndex)
-
                 //selectedItem有值表示新增Task，沒有值表示新增Project
                 if (selectedItem) {
                     //console.log('select', selectedItem)
@@ -56,10 +54,6 @@ function CandidateItem(props) {
     let editModeButton = (
         <Button variant="contained" color="primary" style={styles.button}
             onClick={() => {
-                console.log('selectedItem', props.selectedItem, taskIndex)
-
-
-                //console.log('select', selectedItem)
                 props.addItem({
                     label: itemName,
                     detail: detail,
@@ -75,7 +69,6 @@ function CandidateItem(props) {
             Edit
         </Button>
     )
-
 
     return (
         <div style={props.isFlex ? styles.flexDiv : null}>
@@ -106,7 +99,6 @@ function CandidateItem(props) {
             </div>
             <div style={{ marginLeft: '2px' }}>
                 {taskIndex >= 0 ? (editModeButton) : (addModeButton)}
-
                 <Button variant="contained" color="secondary" style={styles.button}
                     onClick={() => {
                         props.isOpen();
@@ -117,8 +109,6 @@ function CandidateItem(props) {
                     Cancel
                 </Button>
             </div>
-
-
         </div>
     )
 }

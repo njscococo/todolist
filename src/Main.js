@@ -92,39 +92,47 @@ class ResponsiveDrawer extends React.Component {
     })
   }
 
-  addItem = (item, selectedIdx) => {
-    console.log('addItem', item, selectedIdx)
-    if(selectedIdx>-1){
-
-    }else{
+  addItem = (item, taskIdx) => {
+    //selectedIdx>-1=> edit mode
+    if (taskIdx > -1) {
       this.setState((state) => {
         return {
           projectList: [...state.projectList.slice(0, state.selectedIndex),
-          Object.assign({}, state.projectList[state.selectedIndex], 
+          Object.assign({}, state.projectList[state.selectedIndex],
+            {
+              todoItems: [...state.projectList[state.selectedIndex].todoItems.slice(0, taskIdx),
+              Object.assign({}, state.projectList[state.selectedIndex].todoItems[taskIdx], item),
+              ...state.projectList[state.selectedIndex].todoItems.slice(taskIdx + 1)
+              ]
+            })
+          ]
+        }
+      })
+
+    } else {
+      this.setState((state) => {
+        return {
+          projectList: [...state.projectList.slice(0, state.selectedIndex),
+          Object.assign({}, state.projectList[state.selectedIndex],
             { todoItems: [...state.projectList[state.selectedIndex].todoItems, item] }),
           ...state.projectList.slice(state.selectedIndex + 1)]
         }
       })
     }
-    
   }
 
-  editItem = (item, selectedIdx) => {
-    console.log('edit', item, selectedIdx);
-    
-  }
 
   delItem = (idx) => {
-    console.log('checkItem', idx,[...this.state.projectList[this.state.selectedIndex].todoItems]);
+    console.log('checkItem', idx, [...this.state.projectList[this.state.selectedIndex].todoItems]);
     //console.log('checkItem', idx,[...this.state.projectList[this.state.selectedIndex].todoItems].splice(idx,1));
     this.setState((state) => {
       let tmp = [...state.projectList[state.selectedIndex].todoItems];
       tmp.splice(idx, 1)
       return {
         projectList: [...state.projectList.slice(0, state.selectedIndex),
-          Object.assign({}, state.projectList[state.selectedIndex], 
-            { todoItems: tmp }),
-          ...state.projectList.slice(state.selectedIndex + 1)]
+        Object.assign({}, state.projectList[state.selectedIndex],
+          { todoItems: tmp }),
+        ...state.projectList.slice(state.selectedIndex + 1)]
       }
     })
   }
@@ -133,21 +141,21 @@ class ResponsiveDrawer extends React.Component {
     console.log('evt', evt.target.name);
     console.log('searchText', searchText);
 
-    if(evt.target.name==='itemFilter'){
+    if (evt.target.name === 'itemFilter') {
       this.setState((state) => {
         return {
           filterDone: searchText
         };
       })
 
-    }else{
+    } else {
       this.setState((state) => {
         return {
           filterText: searchText
         }
       })
     }
-    
+
   }
 
   checkItem = (idx) => {
@@ -155,12 +163,14 @@ class ResponsiveDrawer extends React.Component {
     this.setState((state) => {
       return {
         projectList: [...state.projectList.slice(0, state.selectedIndex),
-          Object.assign({}, state.projectList[state.selectedIndex], 
-            { todoItems: [...state.projectList[state.selectedIndex].todoItems.slice(0, idx),
-              Object.assign({},state.projectList[state.selectedIndex].todoItems[idx], {isDone: !state.projectList[state.selectedIndex].todoItems[idx].isDone}),
-              ...state.projectList[state.selectedIndex].todoItems.slice(idx+1)
-            ] }),
-          ...state.projectList.slice(state.selectedIndex + 1)]
+        Object.assign({}, state.projectList[state.selectedIndex],
+          {
+            todoItems: [...state.projectList[state.selectedIndex].todoItems.slice(0, idx),
+            Object.assign({}, state.projectList[state.selectedIndex].todoItems[idx], { isDone: !state.projectList[state.selectedIndex].todoItems[idx].isDone }),
+            ...state.projectList[state.selectedIndex].todoItems.slice(idx + 1)
+            ]
+          }),
+        ...state.projectList.slice(state.selectedIndex + 1)]
       };
     })
   }
@@ -258,14 +268,14 @@ class ResponsiveDrawer extends React.Component {
         </nav>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <SearchBar project={this.state.projectList[this.state.selectedIndex] ? this.state.projectList[this.state.selectedIndex] : {}} filterItem={this.filterItem}/>
+          <SearchBar project={this.state.projectList[this.state.selectedIndex] ? this.state.projectList[this.state.selectedIndex] : {}} filterItem={this.filterItem} />
           <TodoItemHolder project={this.state.projectList[this.state.selectedIndex] ? this.state.projectList[this.state.selectedIndex] : {}}
-            addItem={this.addItem} 
+            addItem={this.addItem}
             checkItem={this.checkItem}
             delItem={this.delItem}
             filterText={this.state.filterText}
             filterDone={this.state.filterDone}
-          />       
+          />
         </main>
       </div>
     );

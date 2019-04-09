@@ -11,8 +11,8 @@ import Button from '@material-ui/core/Button';
 import CandidateItem from './CandidateItem';
 
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
-import Popover from '@material-ui/core/Popover';
+// import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
+// import Popover from '@material-ui/core/Popover';
 
 function TodoItem(props) {
     const { addItem, project, checkItem, delItem, filterText, filterDone } = props
@@ -47,14 +47,12 @@ function TodoItem(props) {
                         const row = idx === editIndex ?
                             (<TableRow key={`task_row_${idx}`}>
                                 <TableCell colSpan={4}>
-                                    <CandidateItem isFlex={true} isOpen={() => setEditIndex(-1)} addItem={addItem} selectedItem={project} taskIndex={idx}/>
+                                    <CandidateItem isFlex={true} isOpen={() => setEditIndex(-1)} addItem={addItem} selectedItem={project} taskIndex={idx} />
                                 </TableCell>
                             </TableRow>)
                             : (<TableRow key={`task_row_${idx}`} hover={true} selected={elm.isDone}
                                 onClick={(evt) => {
                                     setEditIndex(idx)
-
-                                    console.log('row', evt.target)
                                 }}
                             >
                                 <TableCell align="left" padding="checkbox" style={{ width: "10%" }}>
@@ -62,22 +60,13 @@ function TodoItem(props) {
                                         name={`ck_${idx}`}
                                         checked={elm.isDone}
                                         onClick={(evt) => evt.stopPropagation()}
-                                        onChange={(evt) => {                                            
-                                            //console.log('checkbox onChange', evt.target);
+                                        onChange={(evt) => {
                                             checkItem(idx)
                                         }}
                                     />
                                 </TableCell>
                                 <TableCell component="td" scope="row" padding="none">
                                     {elm.label}
-                                    {/* <ChatBubbleOutlineIcon
-                                name={`icon_${idx}`}
-                                onClick={(evt) => {
-                                    //this.setState({ [name]: value, event: evt })
-                                    // setShowDialog(true)
-                                    // setAnchorEl(evt.currentTarget)
-                                }}
-                            /> */}
                                 </TableCell>
                                 <TableCell>
                                     {elm.detail}
