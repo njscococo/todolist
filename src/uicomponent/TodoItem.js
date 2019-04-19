@@ -11,11 +11,27 @@ import Button from '@material-ui/core/Button';
 import CandidateItem from './CandidateItem';
 
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-// import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
-// import Popover from '@material-ui/core/Popover';
+import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
+import { withStyles } from '@material-ui/core/styles';
+import green from '@material-ui/core/colors/green';
 
+const styles = theme => ({
+    root: {
+      padding: theme.spacing.unit,
+      [theme.breakpoints.down('sm')]: {
+        backgroundColor: theme.palette.secondary.main,
+        display: 'none'
+      },
+      [theme.breakpoints.up('md')]: {
+        backgroundColor: theme.palette.primary.main,
+      },
+      [theme.breakpoints.up('lg')]: {
+        backgroundColor: green[500],
+      },
+    },
+  });
 function TodoItem(props) {
-    const { addItem, project, checkItem, delItem, filterText, filterDone } = props
+    const { addItem, project, checkItem, delItem, filterText, filterDone, classes } = props
     const [isAddItem, setIsAddItem] = useState(false);
     // const [showDialog, setShowDialog] = useState(false);
     // const [anchorEl, setAnchorEl] = useState(null);
@@ -33,7 +49,7 @@ function TodoItem(props) {
     return (
         <Table>
             <TableBody>
-                <TableRow>
+                <TableRow>{console.log('styles', styles)}
                     <TableCell colSpan={4}>
                         <Button color="secondary" style={{ marginLeft: 5 }} onClick={() => setIsAddItem(true)}>
                             Add Task
@@ -47,7 +63,8 @@ function TodoItem(props) {
                         const row = idx === editIndex ?
                             (<TableRow key={`task_row_${idx}`}>
                                 <TableCell colSpan={4}>
-                                    <CandidateItem isFlex={true} isOpen={() => setEditIndex(-1)} addItem={addItem} selectedItem={project} taskIndex={idx} />
+                                    <CandidateItem isFlex={true} isOpen={() => setEditIndex(-1)} addItem={addItem}
+                                        selectedItem={project} taskIndex={idx} />
                                 </TableCell>
                             </TableRow>)
                             : (<TableRow key={`task_row_${idx}`} hover={true} selected={elm.isDone}
@@ -68,8 +85,11 @@ function TodoItem(props) {
                                 <TableCell component="td" scope="row" padding="none">
                                     {elm.label}
                                 </TableCell>
-                                <TableCell>
-                                    {elm.detail}
+                                <TableCell >
+                                    {elm.detail}<ChatBubbleOutlineIcon onMouseOverCapture={(evt) => {
+                                        console.log('over');
+                                        evt.stopPropagation()
+                                    }} />
                                 </TableCell>
                                 <TableCell>
                                     <Button color="secondary" style={{ marginLeft: 5 }}
@@ -79,6 +99,11 @@ function TodoItem(props) {
                                         }}>
                                         <DeleteForeverIcon />
                                     </Button>
+                                    <div className={classes.root}>
+      <div variant="subtitle1">{'down(sm): red'}</div>
+      <div variant="subtitle1">{'up(md): blue'}</div>
+      <div variant="subtitle1">{'up(lg): green'}</div>
+    </div>
                                 </TableCell>
                             </TableRow>)
                         return row;
@@ -94,4 +119,4 @@ TodoItem.propTypes = {
     project: PropTypes.object.isRequired,
 }
 
-export default TodoItem
+export default withStyles(styles)(TodoItem)

@@ -17,6 +17,7 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import PersonIcon from '@material-ui/icons/Person';
 import MenuIcon from '@material-ui/icons/Menu';
 import AddIcon from '@material-ui/icons/Add';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
@@ -212,6 +213,7 @@ class ResponsiveDrawer extends React.Component {
                 >
                   <ListItemIcon>{index % 2 === 0 ? <PersonIcon /> : <AssignmentIcon />}</ListItemIcon>
                   <ListItemText primary={project.projectName} />
+                  <MoreHorizIcon />
                 </ListItem>
               ))}
             </List>

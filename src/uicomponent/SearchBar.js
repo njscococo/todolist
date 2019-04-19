@@ -10,12 +10,15 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Divider from '@material-ui/core/Divider';
 
-const styles = {
+const drawerWidth = 240
+const styles = theme => ({
     root: {
         padding: '2px 4px',
         display: 'flex',
         alignItems: 'center',
-        width: 600,
+        // [theme.breakpoints.down('sm')]: {
+        //     width: `calc(100% - ${drawerWidth}px)`,
+        // }
     },
     input: {
         marginLeft: 8,
@@ -29,12 +32,12 @@ const styles = {
         height: 28,
         margin: 4,
     },
-};
+});
 
 function SearchBar(props) {
     const { classes, filterItem } = props;
     const [searchText, setSearchText] = useState('');
-    const [itemStatus, setItemStatus ] = useState('all')
+    const [itemStatus, setItemStatus] = useState('all')
 
     return (
         <div>
@@ -54,7 +57,7 @@ function SearchBar(props) {
                 <Divider className={classes.divider} />
                 <RadioGroup
                     name="itemFilter"
-                    style={{display:'flex', flexDirection:'row',marginLeft: '8px'}}
+                    style={{ display: 'flex', flexDirection: 'row', marginLeft: '8px' }}
                     //className={classes.group}
                     value={itemStatus}
                     onChange={(evt) => {
