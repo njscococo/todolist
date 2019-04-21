@@ -12,7 +12,7 @@ class liffHelper {
             console.log('init data:', data)
             liffInfo = data;
             isInit = true;
-            resolve();
+            resolve(liffInfo);
           },
           err => {
             console.log('Fail to init LIFF, please run inside LINE only');
