@@ -18,7 +18,7 @@ import green from '@material-ui/core/colors/green';
 const styles = theme => ({
     root: {
       padding: theme.spacing.unit,
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xs')]: {
         backgroundColor: theme.palette.secondary.main,
         display: 'none'
       },

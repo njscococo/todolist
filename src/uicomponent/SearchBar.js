@@ -31,7 +31,21 @@ const styles = theme => ({
         width: 1,
         height: 28,
         margin: 4,
+        [theme.breakpoints.down('sm')]: {
+            display: 'none'
+        }
     },
+    SearchBar: {
+        [theme.breakpoints.up('sm')]: {
+            display: 'flex',
+            flexDirection: 'row'
+        },
+
+        [theme.breakpoints.down('sm')]: {
+            display: 'flex',
+            flexDirection: 'column'
+        }
+    }
 });
 
 function SearchBar(props) {
@@ -42,34 +56,38 @@ function SearchBar(props) {
     return (
         <div>
             <Paper className={classes.root} elevation={1} style={{ marginBottom: 5 }}>
-                <InputBase className={classes.input} placeholder="Search Todo Items" onChange={(evt) => {
-                    //console.log('search', evt.target.value, project);
-                    setSearchText(evt.target.value);
-                    filterItem(evt, evt.target.value);
-                }} />
-                <IconButton className={classes.iconButton} aria-label="Search"
-                    onClick={(evt) => {
-                        filterItem(evt, searchText)
-                    }}
-                >
-                    <SearchIcon />
-                </IconButton>
-                <Divider className={classes.divider} />
-                <RadioGroup
-                    name="itemFilter"
-                    style={{ display: 'flex', flexDirection: 'row', marginLeft: '8px' }}
-                    //className={classes.group}
-                    value={itemStatus}
-                    onChange={(evt) => {
-                        setItemStatus(evt.target.value)
-                        filterItem(evt, evt.target.value)
-                    }}
-                >
-                    <FormControlLabel value="all" control={<Radio />} label="All" />
-                    <FormControlLabel value="done" control={<Radio />} label="Finished" />
-                    <FormControlLabel value="undone" control={<Radio />} label="Not Finished" />
-                </RadioGroup>
+                <div className={classes.SearchBar}>
+                    <div style={{display:'flex', flexDirection:'row'}}>
+                        <InputBase className={classes.input} placeholder="Search Todo Items" onChange={(evt) => {
+                            //console.log('search', evt.target.value, project);
+                            setSearchText(evt.target.value);
+                            filterItem(evt, evt.target.value);
+                        }} />
+                        <IconButton className={classes.iconButton} aria-label="Search"
+                            onClick={(evt) => {
+                                filterItem(evt, searchText)
+                            }}
+                        >
+                            <SearchIcon />
+                        </IconButton>
+                    </div>
 
+                    <Divider className={classes.divider} />
+                    <RadioGroup
+                        name="itemFilter"
+                        style={{ display: 'flex', flexDirection: 'row', marginLeft: '8px' }}
+                        //className={classes.group}
+                        value={itemStatus}
+                        onChange={(evt) => {
+                            setItemStatus(evt.target.value)
+                            filterItem(evt, evt.target.value)
+                        }}
+                    >
+                        <FormControlLabel value="all" control={<Radio />} label="All" />
+                        <FormControlLabel value="done" control={<Radio />} label="Finished" />
+                        <FormControlLabel value="undone" control={<Radio />} label="Not Finished" />
+                    </RadioGroup>
+                </div>
             </Paper>
         </div>
     );
