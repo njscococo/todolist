@@ -29,6 +29,8 @@ import SearchBar from './uicomponent/SearchBar'
 import CandidateItem from './uicomponent/CandidateItem'
 import TodoItemHolder from './uicomponent/TodoItemHolder';
 
+import liff from './utils/liffHelper';
+
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -77,6 +79,13 @@ class ResponsiveDrawer extends React.Component {
     filterDone: 'all'
   };
 
+  componentDidMount() {
+    liff.getProfile()
+      .then((profile) => {
+        console.log('profile:', profile)
+      });
+  }
+
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
@@ -121,7 +130,6 @@ class ResponsiveDrawer extends React.Component {
       })
     }
   }
-
 
   delItem = (idx) => {
     console.log('checkItem', idx, [...this.state.projectList[this.state.selectedIndex].todoItems]);
