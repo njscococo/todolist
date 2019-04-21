@@ -80,7 +80,7 @@ class ResponsiveDrawer extends React.Component {
   };
 
   componentDidMount() {
-    
+    console.log('componentDidMount liff:', liff)
     // liff.init().then((data) => {
     //   console.log('componentDidMount init:', data);
     //   axios({
