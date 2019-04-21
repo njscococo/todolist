@@ -81,14 +81,14 @@ class ResponsiveDrawer extends React.Component {
 
   componentDidMount() {
     liff.init().then((data) => {
-      console.log('init:', data);
-      axios({
-        url: `https://linetestingserver.herokuapp.com/line/istmnewa/${data.context.userId}`,
-        method: 'get'
-      }).then(res => {
-        console.log('istmnewa:', res.data.isTmnewa);
+      console.log('componentDidMount init:', data);
+      // axios({
+      //   url: `https://linetestingserver.herokuapp.com/line/istmnewa/${data.context.userId}`,
+      //   method: 'get'
+      // }).then(res => {
+      //   console.log('istmnewa:', res.data.isTmnewa);
         
-      })
+      // })
     })
     // liff.getProfile()
     //   .then((profile) => {
