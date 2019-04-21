@@ -21,7 +21,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-
+import axios from 'axios';
 //var data = require('./data')
 import defaultData from './data';
 import { Collapse } from '@material-ui/core';
@@ -80,10 +80,20 @@ class ResponsiveDrawer extends React.Component {
   };
 
   componentDidMount() {
-    liff.getProfile()
-      .then((profile) => {
-        console.log('profile:', profile)
-      });
+    liff.init().then((data) => {
+      console.log('init:', data);
+      axios({
+        url: `https://linetestingserver.herokuapp.com/line/istmnewa/${data.context.userId}`,
+        method: 'get'
+      }).then(res => {
+        console.log('istmnewa:', res.data.isTmnewa);
+        
+      })
+    })
+    // liff.getProfile()
+    //   .then((profile) => {
+    //     console.log('profile:', profile)
+    //   });
   }
 
   handleDrawerToggle = () => {
