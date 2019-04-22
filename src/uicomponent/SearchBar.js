@@ -12,17 +12,17 @@ import Divider from '@material-ui/core/Divider';
 
 const drawerWidth = 240
 const styles = theme => ({
-    root: {
+    root: {        
         padding: '2px 4px',
         display: 'flex',
         alignItems: 'center',
-        // [theme.breakpoints.down('sm')]: {
-        //     width: `calc(100% - ${drawerWidth}px)`,
-        // }
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
+        }
     },
     input: {
         marginLeft: 8,
-        flex: 1,
+        //flexGrow: 2,
     },
     iconButton: {
         padding: 10,
@@ -32,7 +32,9 @@ const styles = theme => ({
         height: 28,
         margin: 4,
         [theme.breakpoints.down('sm')]: {
-            display: 'none'
+            width: '100%',
+            height: 1
+
         }
     },
     SearchBar: {
@@ -58,7 +60,8 @@ function SearchBar(props) {
             <Paper className={classes.root} elevation={1} style={{ marginBottom: 5 }}>
                 <div className={classes.SearchBar}>
                     <div style={{display:'flex', flexDirection:'row'}}>
-                        <InputBase className={classes.input} placeholder="Search Todo Items" onChange={(evt) => {
+                        <InputBase className={classes.input} placeholder="Search Todo Items" fullWidth={true}
+                        onChange={(evt) => {
                             //console.log('search', evt.target.value, project);
                             setSearchText(evt.target.value);
                             filterItem(evt, evt.target.value);
@@ -84,8 +87,8 @@ function SearchBar(props) {
                         }}
                     >
                         <FormControlLabel value="all" control={<Radio />} label="All" />
-                        <FormControlLabel value="done" control={<Radio />} label="Finished" />
-                        <FormControlLabel value="undone" control={<Radio />} label="Not Finished" />
+                        <FormControlLabel value="done" control={<Radio />} label="Done" />
+                        <FormControlLabel value="undone" control={<Radio />} label="Undone" />
                     </RadioGroup>
                 </div>
             </Paper>
