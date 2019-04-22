@@ -49,7 +49,7 @@ function TodoItem(props) {
     return (
         <Table>
             <TableBody>
-                <TableRow>{console.log('styles', styles)}
+                <TableRow>
                     <TableCell colSpan={4}>
                         <Button color="secondary" style={{ marginLeft: 5 }} onClick={() => setIsAddItem(true)}>
                             Add Task
