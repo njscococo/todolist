@@ -6,7 +6,7 @@
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
     "@material-ui/styles": "^3.0.0-alpha.10",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "mobx": "5.9.0",
     "mobx-react-lite": "1.0.1",
     "react": "^16.8.6",
