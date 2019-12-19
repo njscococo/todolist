@@ -232,7 +232,10 @@ class ResponsiveDrawer extends React.Component {
                 >
                   <ListItemIcon>{index % 2 === 0 ? <PersonIcon /> : <AssignmentIcon />}</ListItemIcon>
                   <ListItemText primary={project.projectName} />
-                  <MoreHorizIcon />
+                  <MoreHorizIcon onClick={(e) => {
+                    e.stopPropagation();
+                    console.log('click');
+                  }} />
                 </ListItem>
               ))}
             </List>

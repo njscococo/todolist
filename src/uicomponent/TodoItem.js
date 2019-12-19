@@ -99,11 +99,11 @@ function TodoItem(props) {
                                         }}>
                                         <DeleteForeverIcon />
                                     </Button>
-                                    <div className={classes.root}>
+                                    {/* <div className={classes.root}>
       <div variant="subtitle1">{'down(sm): red'}</div>
       <div variant="subtitle1">{'up(md): blue'}</div>
       <div variant="subtitle1">{'up(lg): green'}</div>
-    </div>
+    </div> */}
                                 </TableCell>
                             </TableRow>)
                         return row;

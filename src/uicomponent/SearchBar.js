@@ -88,7 +88,7 @@ function SearchBar(props) {
                     >
                         <FormControlLabel value="all" control={<Radio />} label="All" />
                         <FormControlLabel value="done" control={<Radio />} label="Done" />
-                        <FormControlLabel value="undone" control={<Radio />} label="Undone" />
+                        <FormControlLabel value="undone" control={<Radio />} label="Not Done" />
                     </RadioGroup>
                 </div>
             </Paper>
