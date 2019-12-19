@@ -29,7 +29,7 @@ import SearchBar from './uicomponent/SearchBar'
 import CandidateItem from './uicomponent/CandidateItem'
 import TodoItemHolder from './uicomponent/TodoItemHolder';
 
-import liff from './utils/liffHelper';
+//import liff from './utils/liffHelper';
 
 const drawerWidth = 240;
 
@@ -81,16 +81,16 @@ class ResponsiveDrawer extends React.Component {
 
   componentDidMount() {
     //console.log('componentDidMount liff:', liff.init().then((res) => console.log('ress:',res)))
-    liff.init().then((data) => {
-      console.log('componentDidMount init:', data);
-      axios({
-        url: `https://linetestingserver.herokuapp.com/line/istmnewa/${data.context.userId}`,
-        method: 'get'
-      }).then(res => {
-        console.log('istmnewa:', res.data.isTmnewa);
+    // liff.init().then((data) => {
+    //   console.log('componentDidMount init:', data);
+    //   axios({
+    //     url: `https://linetestingserver.herokuapp.com/line/istmnewa/${data.context.userId}`,
+    //     method: 'get'
+    //   }).then(res => {
+    //     console.log('istmnewa:', res.data.isTmnewa);
         
-      })
-    })
+    //   })
+    // })
     // liff.getProfile()
     //   .then((profile) => {
     //     console.log('profile:', profile)
